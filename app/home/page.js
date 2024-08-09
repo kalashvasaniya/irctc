@@ -101,7 +101,6 @@ export default function Home() {
     }
   };
 
-
   const logout = () => {
     localStorage.removeItem('token');
     window.location.href = '/';
@@ -141,25 +140,45 @@ export default function Home() {
               <input type="time" name="arrival_time" placeholder="Arrival Time" value={formData.arrival_time} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
               <input type="text" name="train_number" placeholder="Train Number" value={formData.train_number} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
               <input type="text" name="train_type" placeholder="Train Type" value={formData.train_type} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
-              <input type="text" name="status" placeholder="Status" value={formData.status} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
+              <select name="status" value={formData.status} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required >
+                <option value="">Select Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="Under Maintenance">Under Maintenance</option>
+              </select>
+
               <button type="submit" className="p-2 px-4 mt-4 w-96 text-lg rounded-sm text-white font-bold transition delay-150 bg-sky-400 hover:bg-sky-500 duration-300">Add Train</button>
             </form>
           </div>
         </div>
       ) : (
         <div className="pt-24">
+          <h1 className="text-3xl font-bold text-center mb-6">Train Information</h1>
           {trains.length > 0 ? (
             trains.map((train, index) => (
               <div key={index} className="mb-4">
-                <div>Source: {train.source || 'N/A'}</div>
-                <div>Destination: {train.destination || 'N/A'}</div>
-                <div>Number of Trains: {train.num_of_trains || 'N/A'}</div>
-                <div>Number of Seats: {train.num_of_seats || 'N/A'}</div>
-                <div>Departure Time: {train.departure_time || 'N/A'}</div>
-                <div>Arrival Time: {train.arrival_time || 'N/A'}</div>
-                <div>Train Number: {train.train_number || 'N/A'}</div>
-                <div>Train Type: {train.train_type || 'N/A'}</div>
-                <div>Status: {train.status || 'N/A'}</div>
+                <div className="container mx-auto">
+                  <div className="space-y-6">
+
+                    <div className="bg-white p-6 rounded-lg shadow-md">
+                      <h2 className="text-2xl font-semibold mb-4 text-red-500">{train.train_number}</h2>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p><span className="font-bold">Source:</span> {train.source}</p>
+                          <p><span className="font-bold">Destination:</span> {train.destination}</p>
+                          <p><span className="font-bold">Number of Trains:</span> {train.num_of_trains}</p>
+                          <p><span className="font-bold">Number of Seats:</span> {train.num_of_seats}</p>
+                        </div>
+                        <div>
+                          <p><span className="font-bold">Departure Time:</span> {train.departure_time}</p>
+                          <p><span className="font-bold">Arrival Time:</span> {train.arrival_time}</p>
+                          <p><span className="font-bold">Status:</span> <span className="text-green-500">{train.status}</span></p>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
               </div>
             ))
           ) : (
