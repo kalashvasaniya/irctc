@@ -7,6 +7,18 @@ export default function Home() {
 
   const [trains, setTrains] = useState([]);
 
+  const [formData, setFormData] = useState({
+    source: '',
+    destination: '',
+    num_of_trains: '',
+    num_of_seats: '',
+    departure_time: '',
+    arrival_time: '',
+    train_number: '',
+    train_type: '',
+    status: ''
+  });
+
   useEffect(() => {
     fetchUser();
     fetchTrain();
@@ -51,6 +63,45 @@ export default function Home() {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/train', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Train added successfully:', data);
+        setFormData({
+          source: '',
+          destination: '',
+          num_of_trains: '',
+          num_of_seats: '',
+          departure_time: '',
+          arrival_time: '',
+          train_number: '',
+          train_type: '',
+          status: ''
+        });
+      } else {
+        console.error('Failed to add train');
+      }
+    } catch (err) {
+      console.error('Error submitting form:', err);
+    }
+  };
+
+
   const logout = () => {
     localStorage.removeItem('token');
     window.location.href = '/';
@@ -79,7 +130,21 @@ export default function Home() {
 
       {email === "kalashvasaniya@gmail.com" ? (
         <div className="pt-24">
-          <div className=""> {/* Admin Panel Content */}</div>
+          <div>
+            <div className="text-2xl font-semibold text-center">Add Train</div>
+            <form onSubmit={handleSubmit} className="flex flex-col items-center">
+              <input type="text" name="source" placeholder="Source" value={formData.source} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
+              <input type="text" name="destination" placeholder="Destination" value={formData.destination} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
+              <input type="number" name="num_of_trains" placeholder="Number of Trains" value={formData.num_of_trains} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
+              <input type="number" name="num_of_seats" placeholder="Number of Seats" value={formData.num_of_seats} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
+              <input type="time" name="departure_time" placeholder="Departure Time" value={formData.departure_time} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
+              <input type="time" name="arrival_time" placeholder="Arrival Time" value={formData.arrival_time} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
+              <input type="text" name="train_number" placeholder="Train Number" value={formData.train_number} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
+              <input type="text" name="train_type" placeholder="Train Type" value={formData.train_type} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
+              <input type="text" name="status" placeholder="Status" value={formData.status} onChange={handleChange} className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm" required />
+              <button type="submit" className="p-2 px-4 mt-4 w-96 text-lg rounded-sm text-white font-bold transition delay-150 bg-sky-400 hover:bg-sky-500 duration-300">Add Train</button>
+            </form>
+          </div>
         </div>
       ) : (
         <div className="pt-24">
@@ -102,6 +167,6 @@ export default function Home() {
           )}
         </div>
       )}
-    </div>
+    </div >
   );
 }
