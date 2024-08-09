@@ -76,6 +76,7 @@ export default function Home() {
     }
   };
 
+  const userEmail = localStorage.getItem('token');
   const seatM = async function seatM(trainId, seatsToBook) {
     try {
       const response = await fetch('/api/train', {
@@ -83,7 +84,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: trainId, num_of_seats: seatsToBook }),
+        body: JSON.stringify({ id: trainId, num_of_seats: seatsToBook, userEmail }),
       });
 
       console.log('Response:', response);

@@ -1,4 +1,5 @@
 import { pool } from '../../../config/db';
+import sendEmail from '@/utils/sendEmail';
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
@@ -22,10 +23,10 @@ export default async function handler(req, res) {
             res.status(500).json({ error: 'Internal server error' });
         }
     } else if (req.method === 'PUT') {
-        const { id, num_of_seats } = req.body;
-        console.log("Hello", id, num_of_seats)
+        const { id, num_of_seats, userEmail } = req.body;
         try {
-            // Fetch the current number of seats to decrement
+            const [rows1] = await pool.query('SELECT * FROM train WHERE id = ?', [id]);
+            console.log(rows1)
             const [currentSeats] = await pool.query('SELECT num_of_seats FROM train WHERE id = ?', [id]);
 
             if (currentSeats.length === 0) {
@@ -47,7 +48,13 @@ export default async function handler(req, res) {
                 return res.status(404).json({ error: 'Train not found' });
             }
 
-            res.status(200).json({ success: true, id });
+            await sendEmail({
+                email: userEmail,
+                subject: 'Booking Confirm!',
+                text: `Train update details: ${JSON.stringify(rows1)}`
+            });
+
+            res.status(200).json({ success: true, id, num_of_seats });
         } catch (err) {
             console.error('Error updating train:', err);
             res.status(500).json({ error: 'Internal server error' });
