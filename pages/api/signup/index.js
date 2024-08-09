@@ -40,14 +40,14 @@ export default async function handler(req, res) {
                 const verifyUrl = `http://localhost:3000/api/verify?id=${result.insertId}&token=${password + email}`;
                 const message = `Hello, ${name}
         
-Thank you for signing up with The PairUp! Please click on the link below to verify your email:
+Thank you for signing up with IRCTC! Please click on the link below to verify your email:
         
 ${verifyUrl}
         
-If you did not sign up for The PairUp, please ignore this email.
+If you did not sign up for IRCTC, please ignore this email.
         
 Best regards
-The PairUp Team`;
+IRCTC Team`;
 
                 await sendEmail({
                     email: email,

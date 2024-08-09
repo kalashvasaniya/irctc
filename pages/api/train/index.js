@@ -21,7 +21,20 @@ export default async function handler(req, res) {
             console.error('Error creating train:', err);
             res.status(500).json({ error: 'Internal server error' });
         }
-    } else {
+    } else if (req.method === 'PUT') {
+        const { id, source, destination, num_of_trains, num_of_seats, departure_time, arrival_time, train_number, train_type, status } = req.body;
+        try {
+            const [result] = await pool.query(
+                'UPDATE train SET source = ?, destination = ?, num_of_trains = ?, num_of_seats = ?, departure_time = ?, arrival_time = ?, train_number = ?, train_type = ?, status = ? WHERE id = ?',
+                [source, destination, num_of_trains, num_of_seats, departure_time, arrival_time, train_number, train_type, status, id]
+            );
+            res.status(200).json({ id: result.insertId });
+        } catch (err) {
+            console.error('Error updating train:', err);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+    else {
         res.setHeader('Allow', ['GET', 'POST']);
         res.status(405).json({ error: `Method ${req.method} Not Allowed` });
     }
