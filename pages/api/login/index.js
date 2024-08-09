@@ -15,7 +15,7 @@ export default async function handler(req, res) {
             );
 
             if (user.length === 0) {
-                return res.status(401).json({ success: false, error: 'Invalid email, password, or account not verified' });
+                return res.status(401).json({ success: false, error: 'Unauthorized' });
             }
 
             res.status(200).json({

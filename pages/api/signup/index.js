@@ -11,11 +11,12 @@ export default async function handler(req, res) {
 
         try {
             const verifyStatus = email === 'kalashvasaniya@gmail.com' ? true : false;
+            const verifyStatus1 = email === 'kalashvasaniya@gmail.com' ? true : false;
 
             const [result] = await pool.query(
-                `INSERT INTO Users (name, email, password, admin)
-                 VALUES (?, ?, ?, ?)`,
-                [name, email, password, verifyStatus]
+                `INSERT INTO Users (name, email, password, admin, verify)
+                 VALUES (?, ?, ?, ?, ?)`,
+                [name, email, password, verifyStatus, verifyStatus1]
             );
 
             res.status(201).json({
