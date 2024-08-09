@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="w-screen h-screen relative">
       <div className="absolute inset-0 fade">
-        <Image className='object-cover w-full h-full' src="/train.jpg" alt="IRCTC" layout="fill" />
+        <Image className='object-cover w-full h-full' src={`/train.jpg`} alt="IRCTC" layout="fill" />
         <div className="relative">
           <Login />
         </div>
