@@ -53,6 +53,12 @@ CREATE TABLE train (
 );
 ```
 
+Admin Account create using email (No need to verify for this!:
+
+```bash
+kalashvasaniya@gmail.com
+```
+
 First, run the development server:
 
 ```bash
