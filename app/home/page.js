@@ -76,6 +76,39 @@ export default function Home() {
     }
   };
 
+  const seatM = async function seatM(trainId, seatsToBook) {
+    try {
+      const response = await fetch('/api/train', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: trainId, num_of_seats: seatsToBook }),
+      });
+
+      console.log('Response:', response);
+
+      if (response.ok) {
+        const updatedTrain = await response.json();
+        console.log('Updated train:', updatedTrain);
+
+        setTrains((prevTrains) => {
+          return prevTrains.map((train) => {
+            if (train.id === trainId) {
+              return { ...train, num_of_seats: updatedTrain.num_of_seats };
+            }
+            return train;
+          });
+        });
+        alert('Seat booked successfully');
+      } else {
+        console.error('Failed to book seat, status:', response.status);
+      }
+    } catch (err) {
+      console.error('Error submitting request:', err);
+    }
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -196,22 +229,29 @@ export default function Home() {
               <div key={index} className="mb-4">
                 <div className="container mx-auto">
                   <div className="space-y-6">
-                    <div className="bg-white p-6 rounded-lg shadow-md">
-                      <h2 className="text-2xl font-semibold mb-4 text-red-500">
-                        {train.train_number}
-                      </h2>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <p><span className="font-bold">Source:</span> {train.source}</p>
-                          <p><span className="font-bold">Destination:</span> {train.destination}</p>
-                          <p><span className="font-bold">Number of Trains:</span> {train.num_of_trains}</p>
-                          <p><span className="font-bold">Number of Seats:</span> {train.num_of_seats}</p>
+                    <div className="bg-white p-6 rounded-lg shadow-md flex flex-row space-x-12">
+                      <div className="">
+                        <h2 className="text-2xl font-semibold mb-4 text-red-500">
+                          {train.train_number}
+                        </h2>
+                        <div className="grid grid-cols-3 gap-4">
+                          <div>
+                            <p><span className="font-bold">Source:</span> {train.source}</p>
+                            <p><span className="font-bold">Destination:</span> {train.destination}</p>
+                            <p><span className="font-bold">Number of Trains:</span> {train.num_of_trains}</p>
+                            <p><span className="font-bold">Number of Seats:</span> {train.num_of_seats}</p>
+                          </div>
+                          <div>
+                            <p><span className="font-bold">Departure Time:</span> {train.departure_time}</p>
+                            <p><span className="font-bold">Arrival Time:</span> {train.arrival_time}</p>
+                            <p><span className="font-bold">Status:</span> <span className="text-green-500">{train.status}</span></p>
+                          </div>
                         </div>
-                        <div>
-                          <p><span className="font-bold">Departure Time:</span> {train.departure_time}</p>
-                          <p><span className="font-bold">Arrival Time:</span> {train.arrival_time}</p>
-                          <p><span className="font-bold">Status:</span> <span className="text-green-500">{train.status}</span></p>
-                        </div>
+                      </div>
+                      <div className=" text-white rounded-md p-2 mt-2">
+                        <button onClick={() => seatM(train.id, 1)} className='flex bg-sky-400 text-white rounded-md p-2 mt-2' type='button'>
+                          Book
+                        </button>
                       </div>
                     </div>
                   </div>

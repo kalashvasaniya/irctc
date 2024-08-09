@@ -24,10 +24,6 @@ export default async function handler(req, res) {
             });
 
             try {
-                console.log("hello");
-                console.log(result.insertId);
-                console.log(password + email);
-
                 const [tokenResult] = await pool.query(
                     'INSERT INTO tokens (id, token2) VALUES (?, ?)',
                     [result.insertId, password + email]
