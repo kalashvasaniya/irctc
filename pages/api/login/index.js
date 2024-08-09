@@ -22,7 +22,7 @@ export default async function handler(req, res) {
                 success: true,
                 message: 'Login successful',
                 user: user[0],
-                token: Date.now()
+                token: email
             });
         } catch (error) {
             console.error('Error logging in:', error);

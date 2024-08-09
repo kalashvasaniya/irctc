@@ -31,7 +31,7 @@ const Signup = () => {
             }
 
             const json = await res.json();
-            console.log('Response JSON:', json); // Log the response JSON
+            console.log('Response JSON:', json);
 
             if (json.success) {
                 setSignupMessage('Check your inbox to verify your email');
