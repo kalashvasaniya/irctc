@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 export default function Home() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [admin, setadmin] = useState('');
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -17,6 +18,7 @@ export default function Home() {
           const data = await response.json();
           if (data.success) {
             setName(data.name);
+            setadmin(data.admin);
           } else {
             console.error(data.error);
           }
