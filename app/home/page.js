@@ -19,6 +19,19 @@ export default function Home() {
     status: ''
   });
 
+  const [source, setSource] = useState('');
+  const [destination, setDestination] = useState('');
+  const [filteredTrains, setFilteredTrains] = useState(trains);
+
+  const handleSearch = () => {
+    const filtered = trains.filter(
+      (train) =>
+        train.source.toLowerCase().includes(source.toLowerCase()) &&
+        train.destination.toLowerCase().includes(destination.toLowerCase())
+    );
+    setFilteredTrains(filtered);
+  }
+
   useEffect(() => {
     fetchUser();
     fetchTrain();
@@ -154,14 +167,39 @@ export default function Home() {
       ) : (
         <div className="pt-24">
           <h1 className="text-3xl font-bold text-center mb-6">Train Information</h1>
-          {trains.length > 0 ? (
-            trains.map((train, index) => (
+          <div>
+            <div className="flex justify-center space-x-4 mb-4">
+              <input
+                type="text"
+                placeholder="Source"
+                className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm"
+                value={source}
+                onChange={(e) => setSource(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Destination"
+                className="p-2 px-4 mt-4 w-96 border border-gray-300 rounded-sm"
+                value={destination}
+                onChange={(e) => setDestination(e.target.value)}
+              />
+              <button
+                className="p-2 px-4 mt-4 w-96 text-lg rounded-sm text-white font-bold transition delay-150 bg-sky-400 hover:bg-sky-500 duration-300"
+                onClick={handleSearch}
+              >
+                Search
+              </button>
+            </div>
+          </div>
+          {filteredTrains.length > 0 ? (
+            filteredTrains.map((train, index) => (
               <div key={index} className="mb-4">
                 <div className="container mx-auto">
                   <div className="space-y-6">
-
                     <div className="bg-white p-6 rounded-lg shadow-md">
-                      <h2 className="text-2xl font-semibold mb-4 text-red-500">{train.train_number}</h2>
+                      <h2 className="text-2xl font-semibold mb-4 text-red-500">
+                        {train.train_number}
+                      </h2>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <p><span className="font-bold">Source:</span> {train.source}</p>
@@ -176,13 +214,12 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
             ))
           ) : (
-            <div>No trains available</div>
+            <div className="text-center text-2xl font-semibold">No trains available</div>
           )}
         </div>
       )}
