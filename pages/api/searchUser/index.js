@@ -1,10 +1,8 @@
-// search user using email which was store in localstorage use database
-
 import { pool } from '../../../config/db';
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
-        const storedEmail = localStorage.getItem('token');
+        const { email } = req.query;
 
         if (!email) {
             return res.status(400).json({ success: false, error: 'Email is required' });
@@ -13,7 +11,7 @@ export default async function handler(req, res) {
         try {
             const [user] = await pool.query(
                 `SELECT * FROM Users WHERE email = ?`,
-                [storedEmail]
+                [email]
             );
 
             if (user.length === 0) {
@@ -22,6 +20,7 @@ export default async function handler(req, res) {
 
             res.status(200).json({
                 success: true,
+                name: user[0].name,
                 message: 'User found',
                 user: user[0],
             });
