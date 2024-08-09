@@ -10,12 +10,12 @@ export default async function handler(req, res) {
 
         try {
             const [user] = await pool.query(
-                `SELECT * FROM Users WHERE email = ? AND password = ?`,
+                `SELECT * FROM Users WHERE email = ? AND password = ? AND verify = 1`,
                 [email, password]
             );
 
             if (user.length === 0) {
-                return res.status(401).json({ success: false, error: 'Invalid email or password' });
+                return res.status(401).json({ success: false, error: 'Invalid email, password, or account not verified' });
             }
 
             res.status(200).json({
