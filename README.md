@@ -17,9 +17,8 @@ npm install
 Run on MySQL or MySQL Workbench
 
 ```bash
-CREATE DATABASE irctc2;
+CREATE DATABASE IF NOT EXISTS irctc2;
 USE irctc2;
-
 
 CREATE TABLE Users (
     id INT PRIMARY KEY AUTO_INCREMENT,
