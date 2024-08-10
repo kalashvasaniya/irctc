@@ -1,6 +1,12 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
+### I did my best to deploy on Vercel, but due to time constraints, I couldn't complete it. I apologize for that.
+### so i upload the video :)
+
+
+https://github.com/user-attachments/assets/430bae98-70e6-4d85-9867-2a850f0bf878
+
 
 Download Folder: 
 
@@ -53,7 +59,7 @@ CREATE TABLE train (
 );
 ```
 
-Admin Account create using email (No need to verify for this!:
+Admin Account create using email (No need to verify for this!):
 
 ```bash
 kalashvasaniya@gmail.com
